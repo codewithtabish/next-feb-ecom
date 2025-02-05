@@ -1,33 +1,113 @@
+import React from "react";
+import {
+  PenBox,
+  LayoutDashboard,
+  FileText,
+  GraduationCap,
+  ChevronDown,
+  StarsIcon,
+} from "lucide-react";
 import Link from "next/link";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Image from "next/image";
+import { Button } from "../ui/button";
+// import { checkUser } from "@/lib/checkUser";
 
-const Header = () => (
-    <header className="text-gray-600 body-font">
-      <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-          </svg>
-          <Link href={'/'}>
-          <span className="ml-3 text-xl">Tailblocks</span>
-          </Link>
-        </a>
-        <nav className="md:ml-auto flex gap-5 flex-wrap items-center text-base justify-center">
-         <Link href={'/blog'}>
-         Blog
-         </Link>
-         <Link href={'/contact'}>
-         Contact
-         </Link>
-        </nav>
-        <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-          Button
-          <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
-        </button>
-      </div>
+export default async function Header() {
+  // await checkUser();
+
+  return (
+    <header className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50 supports-[backdrop-filter]:bg-background/60">
+      <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <Link href="/">
+          <Image
+            src={"/logo.png"}
+            alt="Sensai Logo"
+            width={200}
+            height={60}
+            className="h-12 py-1 w-auto object-contain"
+          />
+        </Link>
+
+        {/* Action Buttons */}
+        <div className="flex items-center space-x-2 md:space-x-4">
+          <SignedIn>
+            <Link href="/dashboard">
+              <Button
+                variant="outline"
+                className="hidden md:inline-flex items-center gap-2"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Industry Insights
+              </Button>
+              <Button variant="ghost" className="md:hidden w-10 h-10 p-0">
+                <LayoutDashboard className="h-4 w-4" />
+              </Button>
+            </Link>
+
+            {/* Growth Tools Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="flex items-center gap-2"
+                variant={'outline'}
+                >
+                  <StarsIcon className="h-4 w-4" />
+                  <span className="hidden md:block">Growth Tools</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem asChild>
+                  <Link href="/resume" className="flex items-center gap-2">
+                    <FileText className="h-4 w-4" />
+                    Build Resume
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/ai-cover-letter"
+                    className="flex items-center gap-2"
+                  >
+                    <PenBox className="h-4 w-4" />
+                    Cover Letter
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/interview" className="flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    Interview Prep
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SignedIn>
+
+          <SignedOut>
+            <SignInButton>
+              <Button variant="outline">Sign In</Button>
+            </SignInButton>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-10 h-10",
+                  userButtonPopoverCard: "shadow-xl",
+                  userPreviewMainIdentifier: "font-semibold",
+                },
+              }}
+              afterSignOutUrl="/"
+            />
+          </SignedIn>
+        </div>
+      </nav>
     </header>
   );
-  
-  export default Header;
-  
+}

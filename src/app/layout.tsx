@@ -4,6 +4,10 @@ import "./globals.css";
 import Header from "@/components/custom/header";
 import Footer from "@/components/custom/footer";
 import { ThemeProvider } from "@/components/custom/theme-provider";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from '@clerk/themes'
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +30,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider
+    appearance={{
+      baseTheme: dark,
+    }}
+    >
+
     <html lang="en" suppressHydrationWarning>
       <body
 
@@ -46,5 +56,7 @@ export default function RootLayout({
           </ThemeProvider>
       </body>
     </html>
+    </ClerkProvider>
+
   );
 }

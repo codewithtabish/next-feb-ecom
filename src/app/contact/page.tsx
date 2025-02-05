@@ -1,12 +1,22 @@
+import { SignedIn, SignedOut, SignInButton, SignUp, SignUpButton, UserButton } from '@clerk/nextjs'
 import React from 'react'
 
 const ContactPage = () => {
-  return (
-    <div>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem accusamus maxime rem iste excepturi eaque voluptatem magni, aperiam modi nemo voluptatum fuga expedita quibusdam, asperiores ab. Nisi dolorem unde inventore?
-      
-    </div>
-  )
+    return (
+        <div>
+         
+
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda corrupti, dolorem voluptate odio optio minima cumque dolores eveniet exercitationem molestiae. Quaerat facere nihil praesentium repudiandae deserunt delectus, dicta at recusandae.
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+         
+          <SignedOut>
+                <SignInButton />
+                {/* <SignUpButton /> */}
+            </SignedOut>
+        </div>
+    )
 }
 
 export default ContactPage
