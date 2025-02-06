@@ -68,7 +68,6 @@ export const helloWorld = inngest.createFunction(
 // )
 
 
-
 export const checkSaveAndSendUpdateEmailToUser = inngest.createFunction(
     { id: "checkSaveAndSendUpdateEmailToUser" },
     { event: "user.checkSaveAndSendUpdateEmailToUser" },
@@ -78,41 +77,41 @@ export const checkSaveAndSendUpdateEmailToUser = inngest.createFunction(
             throw new Error("No user data provided");
         }
 
-        // Debugging: Log user data
-        console.log("Received user:", user);
+        console.log("Received user data:", user); // Log the incoming user data
 
         const result = await step.run("check user and create new user", async () => {
             try {
+                console.log("Checking for existing user in database...");
                 const logginedUser = await db
                     .select()
                     .from(Users)
                     .where(eq(Users.clerkUserId, user?.id))
                     .execute();
 
-                // Debugging: Log database query result
-                console.log("Logged in user result:", logginedUser);
+                console.log("User found in database:", logginedUser); // Log the result from the DB query
 
                 if (logginedUser.length > 0) {
                     return logginedUser[0];
                 }
 
                 const name = `${user.firstName} ${user.lastName}`;
+                console.log("Creating new user with name:", name);
                 const newUser = await db.insert(Users).values({
                     name: name,
                     clerkUserId: user.id,
                     email: user.emailAddresses[0]?.emailAddress ?? "",
                 }).returning({ id: Users.id });
 
+                console.log("New user created:", newUser); // Log the new user details
+
                 return newUser[0];
             } catch (error) {
-                console.error("Error in database operation:", error);
+                console.error("Error during user processing:", error);
                 throw new Error("Error while processing the user.");
             }
         });
 
-        // Debugging: Log final result
-        console.log("Function result:", result);
-
+        console.log("Function result:", result); // Log the result of the step.run
         return result;
     }
 );
