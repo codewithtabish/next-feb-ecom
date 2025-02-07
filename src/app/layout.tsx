@@ -50,12 +50,13 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <APPProvider>
+              {children}
 
 
-      <Header/>
+      {/* <Header/>
     
         <main className="min-h-screen">{children}</main>'
-        <Footer/>
+        <Footer/> */}
         </APPProvider>
 
        
