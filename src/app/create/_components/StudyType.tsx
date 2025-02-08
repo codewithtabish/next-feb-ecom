@@ -63,7 +63,7 @@ const StudyType = () => {
             selectedType={selectedType}
             setSelectedType={setSelectedType}
             step={step}
-            setStep={setStep}
+            // setStep={setStep}
     
             />:
             <StudyTitleForm

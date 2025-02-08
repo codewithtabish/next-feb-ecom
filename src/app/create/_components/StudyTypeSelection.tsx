@@ -23,14 +23,14 @@ interface StudySelectionTypeProps{
     selectedType:string|null,
     setSelectedType:(type:string|null)=>void,
     step:number,
-    setStep:(type:number)=>void,
+    // setStep:(type:number)=>void,
 } 
 
 export default function StudySelectionType({
     selectedType,
     setSelectedType,
     step,
-    setStep,
+    // setStep,
 }:StudySelectionTypeProps) {
 //   const [selected, setSelected] = useState<string | null>(null);
   const [loading, setLoading] = useState<Record<string, boolean>>(
