@@ -18,7 +18,8 @@ const eslintConfig = [
             "@typescript-eslint/no-unused-vars": "off",
             "@typescript-eslint/no-explicit-any": "off",
             "import/no-anonymous-default-export": "off",
-            "react-hooks/exhaustive-deps": "off"
+            "react-hooks/exhaustive-deps": "off",
+            "@typescript-eslint/no-unused-expressions": "off", // Disable this rule
         },
     },
 ];
