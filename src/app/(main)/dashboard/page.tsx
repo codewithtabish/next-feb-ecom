@@ -38,7 +38,7 @@ try {
   return (
     <div>
       {
-        !data||data?.data.length==0&&
+        !data||data?.data?.length==0&&
         <CourseSkeleton/>
       }
       <DashboardCoursesList courses={data?.data}/>
