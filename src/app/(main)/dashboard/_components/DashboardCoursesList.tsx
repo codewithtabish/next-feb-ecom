@@ -56,8 +56,18 @@ const DashboardCoursesList = ({courses}:{courses:any}) => {
   
             )
         })
+
+       
        }
+
+
        </div>
+       {
+            courses.length === 0 &&
+            <div className='flex justify-center items-center'>
+                <CourseSkeleton />
+            </div>
+        }
 
        
       
