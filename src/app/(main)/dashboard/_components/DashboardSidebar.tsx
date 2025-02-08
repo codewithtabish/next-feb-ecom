@@ -61,21 +61,29 @@ export default function DashboardSidebar({ ...props }: React.ComponentProps<type
     // console.log(router.pathname)
     const pathName=usePathname()
   return (
-    <SidebarProvider>
+    <SidebarProvider
+    // className="bg-red-900"
+    >
+
 
     <Sidebar {...props}
+    // className="bg-red-800"
     // className="bg-gray-800"
     >
       <SidebarHeader>
-      <Link href="/">
+        <div className="mx-5">
+
+      <Link href="/"
+      >
           <Image
             src={"/logo.png"}
             alt="Sensai Logo"
-            width={200}
+            width={150}
             height={60}
             className="h-12 py-1 w-auto object-contain"
           />
         </Link>
+        </div>
         {/* <VersionSwitcher
           versions={data.versions}
           defaultVersion={data.versions[0]}

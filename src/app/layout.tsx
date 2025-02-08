@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/custom/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from '@clerk/themes'
 import APPProvider from "@/provider/AppProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 
 
@@ -49,6 +50,8 @@ export default function RootLayout({
           >
             <APPProvider>
               {children}
+              <Toaster />
+
 
 
       {/* <Header/>

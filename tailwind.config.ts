@@ -21,11 +21,11 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: '#305cde',
+  				DEFAULT: '#3730a3',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
+  				DEFAULT: '#4338ca',
   				foreground: 'hsl(var(--secondary-foreground))'
   			},
   			muted: {

@@ -1,4 +1,4 @@
-import { boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, json, pgTable, varchar } from "drizzle-orm/pg-core";
 
  const Users = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -9,8 +9,25 @@ import { boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
 });
 
 
+const StudyMaterialTable= pgTable("StudyMaterial",{
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+courseId:varchar().notNull(),
+courseType: varchar().notNull(),
+difficultyLevel:varchar().default("Easy"),
+topic: varchar().notNull(),
+courseImage: varchar(),
+courseLayout:json(),
+status: varchar().default("Generating"),
+createdBy: varchar().notNull(),
+
+
+
+
+})
+
 
 export  {
-    Users
+    Users,
+    StudyMaterialTable
 
 }

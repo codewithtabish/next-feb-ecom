@@ -71,11 +71,11 @@ export default async function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    href="/ai-cover-letter"
-                    className="flex items-center gap-2"
+                    href="/create"
+                    className="flex items-center gap-2 cursor-pointer"
                   >
                     <PenBox className="h-4 w-4" />
-                    Cover Letter
+                    create course
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

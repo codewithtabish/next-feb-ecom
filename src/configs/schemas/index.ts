@@ -1,6 +1,7 @@
-import { Users } from './schema';
+import { Users,StudyMaterialTable } from './schema';
 
 
 export default {
-    Users
+    Users,
+    StudyMaterialTable,  // Add your other tables here...
 }
