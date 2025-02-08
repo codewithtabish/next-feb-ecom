@@ -17,7 +17,7 @@ const DashboardCoursesList = ({courses}:{courses:any}) => {
         } */}
 
        {
-        courses.map((course:any,index:any)=>{
+        courses?.map((course:any,index:any)=>{
             return (
                 <div key={index} className='cursor-pointer'>
                     <Card>
@@ -32,8 +32,8 @@ const DashboardCoursesList = ({courses}:{courses:any}) => {
                             <CardTitle>{course?.courseLayout?.courseTitle}</CardTitle>
                             <CardDescription>
                                 <p className='text-sm py-2 max-h-[80px] minh-[80px] overflow-hidden w-full '>
-                                    {course?.courseLayout?.courseSummary.length>100?course.
-                                    courseLayout?.courseSummary.slice(0,90)+"...":
+                                    {course?.courseLayout?.courseSummary?.length>100?course.
+                                    courseLayout?.courseSummary?.slice(0,90)+"...":
                                     course?.courseLayout?.courseSummary+"..."
                                     }
                                  
