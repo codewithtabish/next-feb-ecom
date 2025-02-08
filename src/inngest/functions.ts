@@ -107,7 +107,7 @@ export const checkSaveAndSendUpdateEmailToUser = inngest.createFunction(
                 return newUser[0];
             } catch (error) {
                 console.error("Error during user processing:", error);
-                throw new Error("Error while processing the user.");
+                // throw new Error("Error while processing the user.");
             }
         });
 

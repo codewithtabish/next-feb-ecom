@@ -202,3 +202,6 @@ const HomePage = () => {
 }
 
 export default HomePage
+
+
+// Generate a study material for python for exam and level of difficulty will be EASY with summary of course ,list of chapters along with summary for each chapter,Topic list in each chapter,all result in json format

@@ -4,8 +4,13 @@ import Sreps from './Sreps'
 import StudySelectionType from './StudyTypeSelection'
 import { Button } from '@/components/ui/button'
 import StudyTitleForm from './StudyTitleForm'
-import { ArrowBigLeft, ArrowBigRight, FireExtinguisher } from 'lucide-react'
+import { ArrowBigLeft, ArrowBigRight, FireExtinguisher, Loader } from 'lucide-react'
 import { toast } from "sonner"
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+
 
 
 const StudyType = () => {
@@ -13,6 +18,10 @@ const StudyType = () => {
       const [step, setStep] = useState<number>(1)
       const [difficultyLevel, setDifficultyLevel] = useState<string|null >(null); // Ensuring type consistency
       const [topicTitle, setTopicTitle] = useState<string | null>(null); // Ensuring type consistency
+      const {user:currentUser}= useUser()
+      const [loading, setLoading] = useState<boolean>(false)
+      const [error, setError] = useState<any>(null)
+      const router=useRouter()
     
 
       const handleNextClick=()=>{
@@ -29,9 +38,9 @@ const StudyType = () => {
       
       }
 
-      const generateCourse = () => {
+      const generateCourse = async() => {
+        const missingFields = [];
         if (step === 2) {
-          const missingFields = [];
       
           if (!topicTitle) missingFields.push("Topic Title");
           if (!difficultyLevel) missingFields.push("Difficulty Level");
@@ -42,8 +51,45 @@ const StudyType = () => {
             return;
           }
       
-          console.log(selectedType, topicTitle, step, difficultyLevel);
+          // console.log(selectedType, topicTitle, step, difficultyLevel);
           // alert("yes")
+        }
+        if(step==2 && missingFields.length==0){
+          setLoading(true);
+          try {
+            const response=await axios.post('/api/course-creation',{
+              courseId:uuidv4(),
+              courseType:selectedType,
+              courseTitle:topicTitle,
+              difficultyLevel:difficultyLevel,
+              createdBy:currentUser?.emailAddresses[0]?.emailAddress ?? "",
+  
+              
+  
+  
+              
+            })
+            console.log('The api response in method ' + response.data)
+            toast.success('Course created successfully!')
+            router.push(`/dashboard`)
+
+            
+          } catch (error) {
+            setLoading(false)
+            if(error instanceof Error){
+              setError(error.message)
+            }
+            else{
+              setError('An error occurred while trying to create the course')
+            }
+            
+          }finally{
+            setLoading(false)
+          }
+          
+          // const {courseId,courseType,courseTitle,difficultyLevel,createdBy}=await req.json();
+
+       
         }
       };
       
@@ -88,13 +134,21 @@ const StudyType = () => {
         Next    <ArrowBigRight/>  
         </Button>
         :
-          <Button className='text-white md:w-28' disabled={!selectedType}
+          <Button className='text-white md:w-28' disabled={!selectedType||loading}
           onClick={generateCourse}
+
           >
-        <FireExtinguisher/>   Generate
+
+
+<FireExtinguisher/>   {
+  loading? <Loader className='animate-spin'/> : 'Generate'
+}
+              
+    
           </Button>
 
       }
+      {error&&<p className='text-sm text-red-500'>{error+" "}</p>}
        
     </div>
 
