@@ -24,7 +24,7 @@ const DashboardCoursesList = ({courses}:{courses:any}) => {
        {
         courses?.map((course:any,index:any)=>{
             return (
-                <div key={index} className='cursor-pointer'>
+                <Link href={`/course/${course?.courseId}`} key={index} className='cursor-pointer'>
                     <Card>
                         <Image
                         src={'/banner.jpeg'}
@@ -61,7 +61,7 @@ const DashboardCoursesList = ({courses}:{courses:any}) => {
                         </CardHeader>
                     </Card>
 
-                </div>
+                </Link>
   
             )
         })
