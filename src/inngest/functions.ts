@@ -1,7 +1,8 @@
 import { db } from "@/configs/db/db";
 import { inngest } from "./client";
-import { Users } from "@/configs/schemas/schema";
+import { CourseChapters, StudyMaterialTable, Users } from "@/configs/schemas/schema";
 import { eq } from "drizzle-orm";
+import { generateNotesAIModel } from "@/configs/models/ai-model";
 
 export const helloWorld = inngest.createFunction(
   { id: "hello-world" },
@@ -77,32 +78,27 @@ export const checkSaveAndSendUpdateEmailToUser = inngest.createFunction(
             throw new Error("No user data provided");
         }
 
-        console.log("Received user data:", user); // Log the incoming user data
 
         const result = await step.run("check user and create new user", async () => {
             try {
-                console.log("Checking for existing user in database...");
                 const logginedUser = await db
                     .select()
                     .from(Users)
                     .where(eq(Users.clerkUserId, user?.id))
                     .execute();
 
-                console.log("User found in database:", logginedUser); // Log the result from the DB query
 
                 if (logginedUser.length > 0) {
                     return logginedUser[0];
                 }
 
                 const name = `${user.firstName} ${user.lastName}`;
-                console.log("Creating new user with name:", name);
                 const newUser = await db.insert(Users).values({
                     name: name,
                     clerkUserId: user.id,
                     email: user.emailAddresses[0]?.emailAddress ?? "",
                 }).returning({ id: Users.id });
 
-                console.log("New user created:", newUser); // Log the new user details
 
                 return newUser[0];
             } catch (error) {
@@ -111,7 +107,63 @@ export const checkSaveAndSendUpdateEmailToUser = inngest.createFunction(
             }
         });
 
-        console.log("Function result:", result); // Log the result of the step.run
         return result;
     }
 );
+
+
+
+// generate notes for each  course chapter
+
+export const generateNotesForChapters=inngest.createFunction(
+    
+    {id:"generateNotesForChapters"},
+    {event: "courses.generateNotes"},
+    async ({event,step})=>{
+        const {course}=event.data
+        const notes=await step.run("gnerate notes for chapters",async()=>{
+            if(!course){
+                console.log('The course is not available')
+                return
+            }
+            const chapters=course?.courseLayout?.chapters 
+            if(!chapters || chapters.length==0){
+                return
+            }
+            chapters?.map(async(chapter:any,index:any)=>{
+                const PRMOT=`Generate exam material detail content for each chapter ,Make sure to include all topic point in the content , make sure to give content in html format(Do not add HTMLKL, Head, body, title tag),The chapters :`+JSON.stringify(chapter)
+
+                const result = await generateNotesAIModel.sendMessage(PRMOT)
+                const notesResponse=result.response.text()
+                // now it is the time to save the related chapter notes in DB
+                const dbResponse=await db.insert(CourseChapters)
+                .values({
+                    chapterId:index,
+                    courseId:course.courseId,
+                    notes:notesResponse
+
+                })
+
+
+
+            })
+            return "notes generated successfully"
+
+        })
+        // update status to ready 
+        const updateCoursesStatus=await step.run("UpdateCourseStatus to ready state",async()=>{
+
+        const dbUpdateStatus=  await db.update(StudyMaterialTable)
+        .set({status:"Ready"})
+        .where(eq(StudyMaterialTable.courseId,course?.courseId))
+
+        })
+        return 'Updated successfully the course material status'
+        
+    }
+
+
+
+
+
+)

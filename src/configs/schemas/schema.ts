@@ -1,4 +1,4 @@
-import { boolean, integer, json, pgTable, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, json, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 
  const Users = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -26,8 +26,17 @@ createdBy: varchar().notNull(),
 })
 
 
+
+ const CourseChapters=pgTable("CourseChapters",{
+  id:serial().primaryKey(),
+  courseId:varchar().notNull(),
+  chapterId:integer().notNull(),
+  notes:text()
+})
+
 export  {
     Users,
-    StudyMaterialTable
+    StudyMaterialTable,
+    CourseChapters,  // Add your other tables here...
 
 }

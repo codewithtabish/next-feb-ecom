@@ -48,6 +48,26 @@ import {
         },
       ],
     });
+
+
+
+    export const generateNotesAIModel = model.startChat({
+        generationConfig,
+        history: [
+          {
+            role: "user",
+            parts: [
+              {text: "Generate exam material detail content for each chapter ,Make sure to include all topic point in the content , make sure to give content in html format(Do not add HTMLKL, Head, body, title tag) The chapters : {\n      \"chapterTitle\": \"What is Data Science?\",\n      \"chapterSummary\": \"This chapter introduces the field of data science, its applications, and the key skills and roles involved.\",\n      \"topics\": [\n        \"Definition and scope of data science\",\n        \"The data science process (data collection, cleaning, analysis, visualization, interpretation)\",\n        \"Applications of data science in various fields\",\n        \"Different roles in a data science team (data scientist, data engineer, data analyst)\"\n      ]\n    },"},
+            ],
+          },
+          {
+            role: "model",
+            parts: [
+              {text: "```html\n<h3>What is Data Science?</h3>\n<p>This chapter introduces the field of data science, its applications, and the key skills and roles involved.</p>\n\n<h4>Definition and scope of data science</h4>\n<p>This section will define data science, differentiating it from related fields like data analysis and machine learning.  It will explore the broad scope of data science, encompassing various techniques and methodologies used to extract knowledge and insights from structured and unstructured data.  Expect questions on the core principles and the overall aim of data science.</p>\n\n<h4>The data science process (data collection, cleaning, analysis, visualization, interpretation)</h4>\n<p>This section details the typical stages involved in a data science project.  It will cover:\n<ul>\n  <li><strong>Data Collection:</strong>  Methods of data acquisition (e.g., web scraping, APIs, databases).  Understanding data sources and their limitations.</li>\n  <li><strong>Data Cleaning:</strong> Handling missing values, outliers, and inconsistencies.  Data transformation and preprocessing techniques.</li>\n  <li><strong>Data Analysis:</strong>  Exploratory data analysis (EDA), statistical analysis, and hypothesis testing.  Understanding descriptive and inferential statistics.</li>\n  <li><strong>Data Visualization:</strong> Creating informative and effective visualizations using various tools and techniques (e.g., histograms, scatter plots, box plots).  Interpreting visualizations to communicate insights.</li>\n  <li><strong>Data Interpretation:</strong> Drawing meaningful conclusions and making informed recommendations based on the analysis and visualization results.  Communicating findings clearly and effectively.</li>\n</ul>\nExpect questions on the order of these steps, the tools used at each stage, and the challenges encountered.</p>\n\n<h4>Applications of data science in various fields</h4>\n<p>This section showcases the versatility of data science across diverse industries.  Examples might include:\n<ul>\n  <li><strong>Business:</strong> Customer segmentation, market research, fraud detection.</li>\n  <li><strong>Healthcare:</strong> Disease prediction, personalized medicine, drug discovery.</li>\n  <li><strong>Finance:</strong> Risk management, algorithmic trading, credit scoring.</li>\n  <li><strong>Technology:</strong> Recommender systems, natural language processing, image recognition.</li>\n</ul>\nExpect questions on specific applications and how data science techniques are utilized in those contexts.</p>\n\n\n<h4>Different roles in a data science team (data scientist, data engineer, data analyst)</h4>\n<p>This section distinguishes between the key roles within a data science team:\n<ul>\n  <li><strong>Data Scientist:</strong> Focuses on building and deploying machine learning models, performing advanced statistical analysis, and interpreting results.</li>\n  <li><strong>Data Engineer:</strong> Responsible for building and maintaining the infrastructure for data processing and storage.  Ensures data quality and accessibility.</li>\n  <li><strong>Data Analyst:</strong>  Performs exploratory data analysis, identifies trends and patterns, and communicates findings to stakeholders using visualizations and reports.</li>\n</ul>\nExpect questions comparing and contrasting these roles, their responsibilities, and the skills required for each.</p>\n```\n"},
+            ],
+          },
+        ],
+      });
   
     // const result = await chatSession.sendMessage("INSERT_INPUT_HERE");
     // console.log(result.response.text());

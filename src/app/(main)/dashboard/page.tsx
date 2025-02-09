@@ -2,6 +2,8 @@ import React from 'react'
 import DashboardCoursesList from './_components/DashboardCoursesList'
 import { currentUser } from '@clerk/nextjs/server';
 import CourseSkeleton from './_components/CourseSkeleton';
+import { Button } from '@/components/ui/button';
+import { RefreshCcwDotIcon } from 'lucide-react';
 
 const DashboardPage = async() => {
   const user = await currentUser();
@@ -26,7 +28,8 @@ try {
   if (data.status !== "success") {
     throw new Error(data.message || "Error fetching courses data");
   }
-}catch (err:unknown) {
+}
+catch (err:unknown) {
   console.error("Error fetching courses:", err);
   return (
     <div className='min-h-screen flex justify-center items-center'>
@@ -41,6 +44,7 @@ try {
         !data||data?.data?.length==0&&
         <CourseSkeleton/>
       }
+     
       <DashboardCoursesList courses={data?.data}/>
       
     </div>

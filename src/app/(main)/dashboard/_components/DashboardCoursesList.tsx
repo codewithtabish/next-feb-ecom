@@ -5,11 +5,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import CourseSkeleton from './CourseSkeleton'
+import DashboardHeader from './DashboardHeader'
+import RefreshButton from './RefreshButton'
 
 const DashboardCoursesList = ({courses}:{courses:any}) => {
   return (
     <section>
-    <div className="grid md:grid-cols-3 gap-4 items-center my-10">
+        <RefreshButton/>
+    <div className="grid md:grid-cols-3 gap-4 items-center my-1">
+        
+        
         {/* {
             courses.length === 0 && 
                 <CourseSkeleton/>
@@ -44,10 +49,14 @@ const DashboardCoursesList = ({courses}:{courses:any}) => {
                                     Read More
                                     </Link>
                                     <Progress value={30} className='mt-3'/>
-                                  <div className='flex justify-end items-center  pt-2'>
-                                  <RefreshCcw className='animate-spin text-white w-6 h-6 text-right'
-                                    />
-                                  </div>
+                                    {
+                                        course?.status==="Generating"&&
+                                        <div className='flex justify-end items-center  pt-2'>
+                                        <RefreshCcw className='animate-spin text-white w-6 h-6 text-right'
+                                          />
+                                        </div>
+                                    }
+                               
                             </CardDescription>
                         </CardHeader>
                     </Card>

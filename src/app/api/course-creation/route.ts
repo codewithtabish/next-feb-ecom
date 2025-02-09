@@ -1,6 +1,8 @@
 import { db } from "@/configs/db/db";
 import { courseOutlineMethod } from "@/configs/models/ai-model";
 import { StudyMaterialTable } from "@/configs/schemas/schema";
+import { inngest } from "@/inngest/client";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -11,15 +13,14 @@ export async function POST(req: NextRequest) {
         const response1 = await courseOutlineMethod.sendMessage(PROMPT);
         const aiText = response1.response.text();
 
-        console.log("Raw AI Response:", aiText);
 
         let aiResult;
         try {
             aiResult = JSON.parse(aiText);
         } catch (err) {
-            console.error("JSON Parsing Error:", err);
             return NextResponse.json({ status: "error", message: "Invalid JSON response from AI" }, { status: 500 });
         }
+
 
         const dbResult = await db.insert(StudyMaterialTable).values({
             courseId,
@@ -28,9 +29,42 @@ export async function POST(req: NextRequest) {
             topic: courseTitle,
             createdBy,
             courseLayout: aiResult
-        }).returning({ id: StudyMaterialTable.id });
+        }).returning()
 
-        console.log("DB Results:", dbResult[0]);
+        // .returning({ courseId: StudyMaterialTable?.courseId });
+
+        console.log('THE CREATED COURSE HERE IS again third',dbResult[0])
+        
+          
+                if (dbResult[0]) {
+                    const inngestUpdateCourseStatus = await inngest.send({
+                        name: 'courses.generateNotes',
+                        data: {
+                            course: dbResult[0] // Send the first item
+                        }
+                    });
+        
+                    console.log('inngestUpdateCourseStatus', inngestUpdateCourseStatus);
+                } 
+             
+        
+        
+
+        // const dbResult = await db.insert(StudyMaterialTable).values({
+        //     courseId,
+        //     courseType,
+        //     difficultyLevel,
+        //     topic: courseTitle,
+        //     createdBy,
+        //     courseLayout: aiResult
+        // }).returning({ courseId: StudyMaterialTable.courseId });
+
+        // if (dbResult.length > 0) {
+        //     const createdCourse = await db.select().from(StudyMaterialTable)
+        //     .where(eq(studyMaterialTable?.courseId,dbResult[0].courseId))
+        // }
+
+        // console.log("DB Results:", dbResult[0]);
 
         return NextResponse.json({
             status: "success",

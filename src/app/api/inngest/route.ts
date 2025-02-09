@@ -1,6 +1,6 @@
 import { serve } from "inngest/next";
 import { inngest } from "../../../inngest/client";
-import { checkSaveAndSendUpdateEmailToUser } from "@/inngest/functions";
+import { checkSaveAndSendUpdateEmailToUser, generateNotesForChapters } from "@/inngest/functions";
 
 // export const runtime='edge'
 
@@ -9,7 +9,8 @@ export const { GET, POST, PUT } = serve({
   client: inngest,
   streaming:'allow',
   functions: [
-    checkSaveAndSendUpdateEmailToUser
+    checkSaveAndSendUpdateEmailToUser,
+    generateNotesForChapters
     /* your functions will be passed here later! */
   ],
 });
