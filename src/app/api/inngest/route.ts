@@ -4,6 +4,8 @@ import { checkSaveAndSendUpdateEmailToUser, generateNotesForChapters } from "@/i
 
 // export const runtime='edge'
 
+export const runtime = 'edge'; // Ensure edge runtime is enabled
+
 // Create an API that serves zero functions
 export const { GET, POST, PUT } = serve({
   client: inngest,
