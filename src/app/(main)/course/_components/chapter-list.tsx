@@ -51,7 +51,7 @@ const ChapterList = ({ course }: { course: any }) => {
                   </figcaption>
 
                   {/* Fixed Height for Summary (Max 3 Lines) */}
-                  <p className="mt-1 text-sm text-gray-600 dark:text-white/60 line-clamp-3">
+                  <p className="mt-1 text-sm text-gray-500 dark:text-white/60 line-clamp-3">
                     {item?.chapterSummary}
                   </p>
                 </div>
