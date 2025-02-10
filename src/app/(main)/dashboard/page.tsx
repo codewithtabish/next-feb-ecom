@@ -12,9 +12,7 @@ const DashboardPage = async() => {
 
   let data:any
 try {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/courses?userEmail=${encodeURIComponent(userEmail)}`,{
-    cache:'no-cache',
-  });
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/courses?userEmail=${encodeURIComponent(userEmail)}`);
 
   // Check if the response was successful
   if (!response.ok) {

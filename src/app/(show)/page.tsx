@@ -14,6 +14,7 @@ import Image from 'next/image'
 const HomePage = () => {
   return (
     <>
+
       <div className="grid-background"></div>
       <div className='mt-5'>
         <HeroSection/>

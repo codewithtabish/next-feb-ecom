@@ -76,3 +76,31 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ status: "error", message: "An error occurred while creating and saving the course" }, { status: 500 });
     }
 }
+
+
+export async function GET(req:NextRequest){
+        // Parse the query parameters from the request URL
+        const url = new URL(req.url);
+        const courseId = url.searchParams.get('courseId');
+        if(!courseId) {
+            return NextResponse.json({ status: 'error', message: 'Course ID is required.' }, { status: 400 });
+        }
+       try {
+        const singleCourse = await db
+        .select()
+        .from(StudyMaterialTable)
+        .where(eq(StudyMaterialTable.courseId,courseId));
+        if(singleCourse){
+            return NextResponse.json({ status:'success', data: singleCourse[0] });
+        }
+
+        
+       } catch (error) {
+        console.error("Unexpected Error:", error);
+        return NextResponse.json({ status: 'error', message: 'An error occurred while fetching the course.' }, { status: 500 });
+        
+       } 
+    
+
+}
+
