@@ -6,19 +6,14 @@ import BackButton from "@/components/custom/back-button";
 // import { useRouter } from "next/router";
 
 export default async function Page({
-    params,
-  }: {
-    // @ts-ignore
-    params: { courseId: string }
-  }) {
-        // @ts-ignore
-
-    const courseId = params.courseId;
-        // @ts-ignore
+  params,
+}: {
+  params: Promise<{ courseId: string }>
+}) {
+  const courseId = (await params).courseId
 
     let courseData = null;
     // const router=useRouter()
-        // @ts-ignore
 
   
     try {
