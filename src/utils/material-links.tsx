@@ -1,4 +1,4 @@
-import { Book, FileText, Video, FileAudio, Image, FileArchive, File, FileCode2 } from "lucide-react";
+import { Book, FileText, Video, FileAudio,  FileArchive, File, FileCode2, Database } from "lucide-react";
 
 const materialArray = [
   {
@@ -34,7 +34,7 @@ const materialArray = [
     name: "Course Images",
     desc: "View illustrations and infographics 🖼️",
     path: "course-images",
-    icon: <Image />,
+    icon: <Database />,
   },
   {
     id: 6,
