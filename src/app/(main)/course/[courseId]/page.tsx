@@ -8,11 +8,18 @@ import BackButton from "@/components/custom/back-button";
 export default async function Page({
     params,
   }: {
+    // @ts-ignore
     params: { courseId: string }
   }) {
+        // @ts-ignore
+
     const courseId = params.courseId;
+        // @ts-ignore
+
     let courseData = null;
     // const router=useRouter()
+        // @ts-ignore
+
   
     try {
       const response = await fetch(
